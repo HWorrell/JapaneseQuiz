@@ -31,7 +31,15 @@ public class Main {
             }
         }
 
+        File sourceFilesCheck = new File("Source Files");
+        File activeFilesCheck = new File("Source Files\\Active");
 
+        if (!sourceFilesCheck.exists() || !activeFilesCheck.exists()) {
+            if (sourceFilesCheck.mkdir() && activeFilesCheck.mkdir()) {
+                JOptionPane.showMessageDialog(null, "The folders for the content files have been created, please put files into them.");
+            }
+            System.exit(0);
+        }
         //kana translation files for people that do not speak/read japanese
         //format for both is 0 == english letter, 1 == japanese character
         //hiragana translation file
