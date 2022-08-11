@@ -30,7 +30,29 @@ public class OtherQuiz {
         //RNG
         Random random = new Random();
         //main loop that drives the quiz
+                int checkPeriod;
+        if (rounds/5 <20){
+            checkPeriod = rounds/5;
+        }
+        else{
+            checkPeriod = 20;
+        }
+        int checkCounter = 0;
+        
         for (int i = 0; i < this.rounds; i++){
+                        checkCounter++;
+
+            if (this.rounds > 20) {
+                if (checkCounter == checkPeriod) {
+                    String cont = JOptionPane.showInputDialog("Continue? Enter \"no\" to quit, or yes to continue");
+                    if (cont.equals("no")) {
+                        System.exit(0);
+                    } else {
+                        checkCounter = 0;
+                    }
+                }
+            }
+
             //get a random int between 0 and the number of questions
             int question = random.nextInt(this.termVector.size());
             //if we've already tested on this question
