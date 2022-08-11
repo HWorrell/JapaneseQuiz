@@ -13,7 +13,29 @@ public class SelfQuiz {
     void runSelfQuiz(){
         Vector<Integer> testedQuestions = new Vector<>();
         Random random = new Random();
+        int checkPeriod;
+        if (rounds/5 <20){
+            checkPeriod = rounds/5;
+        }
+        else{
+            checkPeriod = 20;
+        }
+        int checkCounter = 0;
         for (int i = 0; i < this.rounds; i++){
+
+            checkCounter++;
+
+            if (this.rounds > 20) {
+                if (checkCounter == checkPeriod) {
+                    String cont = JOptionPane.showInputDialog("Continue? Enter \"no\" to quit, or yes to continue");
+                    if (cont.equals("no")) {
+                        System.exit(0);
+                    } else {
+                        checkCounter = 0;
+                    }
+                }
+            }
+
             int question = random.nextInt(this.termVector.size());
             if (testedQuestions.contains(question)){
                 if (random.nextInt(10) > 3){
