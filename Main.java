@@ -125,7 +125,7 @@ public class Main {
             //if 1, get number of rounds, create quiz with parameters, and exit gracefully.
             //this case doesn't need the Romaji parser.
         } else if (selection.equals("1")){
-            String rounds = JOptionPane.showInputDialog("Enter the number of rounds");
+            String rounds = JOptionPane.showInputDialog("Enter the number of rounds\r\nIf you enter a value more than 20, you will be given periodic chances to quit before you finish");
             int roundsForQuiz = Integer.parseInt(rounds);
             SelfQuiz selfQuiz = new SelfQuiz(termVector,roundsForQuiz);
             selfQuiz.runSelfQuiz();
@@ -133,7 +133,7 @@ public class Main {
             //if 1, get number of rounds, create quiz with parameters, and exit gracefully.
             //Romaji parser passed in as a parameter.
         } else if (selection.equals("2")){
-            String rounds = JOptionPane.showInputDialog("Enter the number of rounds");
+            String rounds = JOptionPane.showInputDialog("Enter the number of rounds\r\nIf you enter a value more than 20, you will be given periodic chances to quit before you finish");
             int roundsForQuiz = Integer.parseInt(rounds);
             OtherQuiz otherQuiz = new OtherQuiz(termVector, roundsForQuiz,romajiParser);
             otherQuiz.runOtherQuiz();
