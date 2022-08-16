@@ -1,10 +1,5 @@
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 public class RomajiParser {
@@ -22,17 +17,26 @@ public class RomajiParser {
         this.katakanaRomaji = new Vector<>();
 
         try {
-            //parse the file
-            CSVParser parser = CSVParser.parse(hiraganaIn, Charset.defaultCharset(), CSVFormat.EXCEL);
+            //read the file in
+            BufferedReader inReader = new BufferedReader(new InputStreamReader(new FileInputStream(hiraganaIn), StandardCharsets.UTF_16));
 
-            //romaji character == 0, hiragana == 1
-            //compound hiragana have length > 1
-            for (CSVRecord r: parser
-                 ) {
-                romaji.add(r.get(0));
-                hiragana.add(r.get(1));
-                if (r.get(1).length() > 1){
-                    this.multiples.add(r.get(1));
+            //init
+            String str = "";
+            //while we're still getting something from the reader
+                    /*
+                    basic logic for this loop is as follows:
+                    romaji is everything before first tab
+                        throw away first tab
+                        set string equal to remainder
+                     */
+            while((str = inReader.readLine()) != null) {
+                String romaji = str.substring(0, str.indexOf("\t"));
+                str = str.substring(str.indexOf("\t") + 1);
+                String kana = str;
+                this.hiragana.add(kana);
+                this.romaji.add(romaji);
+                if (kana.length() > 1){
+                    this.multiples.add(kana);
                 }
             }
 
@@ -43,16 +47,29 @@ public class RomajiParser {
         //same logic for katakana as hiragana
         //TODO Combine these processes if possible
         try {
-            CSVParser parser = CSVParser.parse(katakanaIn, Charset.defaultCharset(), CSVFormat.EXCEL);
+            //read the file in
+            BufferedReader inReader = new BufferedReader(new InputStreamReader(new FileInputStream(katakanaIn), StandardCharsets.UTF_16));
 
-            for (CSVRecord r: parser
-            ) {
-                katakanaRomaji.add(r.get(0));
-                katakana.add(r.get(1));
-                if (r.get(1).length() > 1){
-                    this.multiples.add(r.get(1));
+            //init
+            String str = "";
+            //while we're still getting something from the reader
+                    /*
+                    basic logic for this loop is as follows:
+                    romaji is everything before first tab
+                        throw away first tab
+                        set string equal to remainder
+                     */
+            while((str = inReader.readLine()) != null) {
+                String romaji = str.substring(0, str.indexOf("\t"));
+                str = str.substring(str.indexOf("\t") + 1);
+                String kana = str;
+                this.katakana.add(kana);
+                this.katakanaRomaji.add(romaji);
+                if (kana.length() > 1){
+                    this.multiples.add(kana);
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -128,6 +145,10 @@ public class RomajiParser {
 
 
         return builder.toString();
+    }
+
+    int getTotalCharacters(){
+        return this.hiragana.size() + this.katakana.size();
     }
 
 }
